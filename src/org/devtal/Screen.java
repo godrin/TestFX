@@ -3,16 +3,21 @@ package org.devtal;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.VertexAttribute;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Pixmap.Format;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureWrap;
+import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Matrix4;
 
 public class Screen implements InputProcessor {
 
@@ -21,17 +26,29 @@ public class Screen implements InputProcessor {
 	ShaderProgram meshShader;
 	Texture texture;
 	SpriteBatch spriteBatch;
+	float currentTime = 0;
+	Matrix4 worldMatrix;
 
-	public void render() {
+	public void render(float accum) {
+		currentTime += accum;
+		worldMatrix.setToRotation(0, 0, 1, currentTime * 9);
 		frameBuffer.begin();
 		Gdx.graphics.getGL20().glViewport(0, 0, frameBuffer.getWidth(),
 				frameBuffer.getHeight());
 		Gdx.graphics.getGL20().glClearColor(0f, 1f, 0f, 1);
 		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Gdx.graphics.getGL20().glEnable(GL20.GL_TEXTURE_2D);
+		//Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+		Gdx.graphics.getGL20().glEnable(0x0B41);// GL_POLYGON_SMOOTH
+		
+		
+		
+		Gdx.graphics.getGL20().glHint(GL10.GL_POLYGON_SMOOTH_HINT,GL20.GL_NICEST);
 		texture.bind();
 		meshShader.begin();
 		meshShader.setUniformi("u_texture", 0);
+		meshShader.setUniformMatrix("u_world", worldMatrix);
+		meshShader.setUniformf("u_time", currentTime);
 		mesh.render(meshShader, GL20.GL_TRIANGLES);
 		meshShader.end();
 		frameBuffer.end();
@@ -63,10 +80,13 @@ public class Screen implements InputProcessor {
 				0, c2, 1, 0, 0, 0.5f, 0, c3, 0.5f, 1 });
 
 		texture = new Texture(Gdx.files.internal("data/bg.png"));
+		texture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
 
 		spriteBatch = new SpriteBatch();
 		frameBuffer = new FrameBuffer(Format.RGB565, 128, 128, false);
 		createShader(Gdx.graphics);
+		worldMatrix = new Matrix4();
+
 	}
 
 	private String getProgram(String filePath) {
@@ -132,11 +152,6 @@ public class Screen implements InputProcessor {
 	}
 
 	public void wait(TestFXApp towerGame) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void render(float accum) {
 		// TODO Auto-generated method stub
 
 	}
