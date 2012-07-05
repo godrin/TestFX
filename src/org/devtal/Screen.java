@@ -94,13 +94,18 @@ public class Screen implements InputProcessor {
 	}
 
 	private void createShader(Graphics graphics) {
+
 		String vertexShader, fragmentShader;
 		vertexShader = getProgram("data/shaders/simple.vert");
 		fragmentShader = getProgram("data/shaders/simple.frag");
 
+
 		meshShader = new ShaderProgram(vertexShader, fragmentShader);
-		if (meshShader.isCompiled() == false)
+		if (meshShader.isCompiled() == false){
+			System.out.println(meshShader.getManagedStatus());
+			System.out.println(meshShader.getLog());
 			throw new IllegalStateException(meshShader.getLog());
+		}
 	}
 
 	@Override
