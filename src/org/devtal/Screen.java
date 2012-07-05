@@ -69,26 +69,16 @@ public class Screen implements InputProcessor {
 		createShader(Gdx.graphics);
 	}
 
+	private String getProgram(String filePath) {
+		return Gdx.files.internal(filePath).readString();
+	}
+
 	private void createShader(Graphics graphics) {
-		String vertexShader = "attribute vec4 a_Position;    \n"
-				+ "attribute vec4 a_Color;\n" + "attribute vec2 a_texCoords;\n"
-				+ "varying vec4 v_Color;" + "varying vec2 v_texCoords; \n" +
 
-				"void main()                  \n"
-				+ "{                            \n" + "   v_Color = a_Color;"
-				+ "   v_texCoords = a_texCoords;\n"
-				+ "   gl_Position =   a_Position;  \n"
-				+ "}                            \n";
-		String fragmentShader = //"precision mediump float;\n"
-				 "varying vec4 v_Color;\n"
-				+ "varying vec2 v_texCoords; \n"
-				+ "uniform sampler2D u_texture;\n"
-				+
+		String vertexShader, fragmentShader;
+		vertexShader = getProgram("data/shaders/simple.vert");
+		fragmentShader = getProgram("data/shaders/simple.frag");
 
-				"void main()                                  \n"
-				+ "{                                            \n"
-				+ "  gl_FragColor = v_Color * texture2D(u_texture, v_texCoords);\n"
-				+ "}";
 
 		meshShader = new ShaderProgram(vertexShader, fragmentShader);
 		if (meshShader.isCompiled() == false){
