@@ -47,7 +47,6 @@ public class TestFXApp implements ApplicationListener {
 			accum -= 1.0f / 60.0f;
 		}
 		screen.render(accum);
-		screen.render();
 	}
 
 	@Override
