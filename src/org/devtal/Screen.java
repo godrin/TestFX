@@ -26,7 +26,7 @@ public class Screen implements InputProcessor {
 		frameBuffer.begin();
 		Gdx.graphics.getGL20().glViewport(0, 0, frameBuffer.getWidth(),
 				frameBuffer.getHeight());
-		Gdx.graphics.getGL20().glClearColor(0f, 1f, 0f, 1);
+		Gdx.graphics.getGL20().glClearColor(0f, 2f, 0f, 1);
 		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Gdx.graphics.getGL20().glEnable(GL20.GL_TEXTURE_2D);
 		texture.bind();
@@ -38,7 +38,7 @@ public class Screen implements InputProcessor {
 
 		Gdx.graphics.getGL20().glViewport(0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
-		Gdx.graphics.getGL20().glClearColor(0.2f, 0.2f, 0.2f, 1);
+		Gdx.graphics.getGL20().glClearColor(0f, 0f, 0f, 1);
 		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		spriteBatch.begin();
