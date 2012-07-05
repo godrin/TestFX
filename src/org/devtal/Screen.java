@@ -79,8 +79,8 @@ public class Screen implements InputProcessor {
 				+ "   v_texCoords = a_texCoords;\n"
 				+ "   gl_Position =   a_Position;  \n"
 				+ "}                            \n";
-		String fragmentShader = "precision mediump float;\n"
-				+ "varying vec4 v_Color;\n"
+		String fragmentShader = //"precision mediump float;\n"
+				 "varying vec4 v_Color;\n"
 				+ "varying vec2 v_texCoords; \n"
 				+ "uniform sampler2D u_texture;\n"
 				+
@@ -91,8 +91,11 @@ public class Screen implements InputProcessor {
 				+ "}";
 
 		meshShader = new ShaderProgram(vertexShader, fragmentShader);
-		if (meshShader.isCompiled() == false)
+		if (meshShader.isCompiled() == false){
+			System.out.println(meshShader.getManagedStatus());
+			System.out.println(meshShader.getLog());
 			throw new IllegalStateException(meshShader.getLog());
+		}
 	}
 
 	@Override
