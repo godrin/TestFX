@@ -11,6 +11,6 @@ void main()
    v_Color = a_Color;
    v_texCoords = a_texCoords;
    //gl_Position =   a_Position;
-   v_texCoords.x+=sin(u_time*2)*0.2;
+   v_texCoords.x+=sin(u_time/60f)*0.5f;
    gl_Position=u_world*a_Position;
 }           

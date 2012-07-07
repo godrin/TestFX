@@ -43,6 +43,7 @@ public class TestFXApp implements ApplicationListener {
 	public void render() {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		accum += Gdx.graphics.getDeltaTime();
+		if(false)
 		while (accum > 1.0f / 60.0f) {
 			accum -= 1.0f / 60.0f;
 		}

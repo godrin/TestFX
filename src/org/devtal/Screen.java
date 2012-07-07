@@ -26,22 +26,24 @@ public class Screen implements InputProcessor {
 	SpriteBatch spriteBatch;
 	float currentTime = 0;
 	Matrix4 worldMatrix;
+	boolean rotate = false;
 
 	public void render(float accum) {
 		currentTime += accum;
-		worldMatrix.setToRotation(0, 0, 1, currentTime * 9);
+		if (rotate)
+			worldMatrix.setToRotation(0, 0, 1, currentTime * 9);
+		else worldMatrix.setToRotation(0,0,1,0);
 		frameBuffer.begin();
 		Gdx.graphics.getGL20().glViewport(0, 0, frameBuffer.getWidth(),
 				frameBuffer.getHeight());
-		Gdx.graphics.getGL20().glClearColor(0f, 2f, 0f, 1);
+		Gdx.graphics.getGL20().glClearColor(0f, 0f, 0f, 1);
 		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Gdx.graphics.getGL20().glEnable(GL20.GL_TEXTURE_2D);
-		//Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
+		// Gdx.graphics.getGL20().glEnable(GL20.GL_BLEND);
 		Gdx.graphics.getGL20().glEnable(0x0B41);// GL_POLYGON_SMOOTH
-		
-		
-		
-		Gdx.graphics.getGL20().glHint(GL10.GL_POLYGON_SMOOTH_HINT,GL20.GL_NICEST);
+
+		Gdx.graphics.getGL20().glHint(GL10.GL_POLYGON_SMOOTH_HINT,
+				GL20.GL_NICEST);
 		texture.bind();
 		meshShader.begin();
 		meshShader.setUniformi("u_texture", 0);
@@ -61,6 +63,12 @@ public class Screen implements InputProcessor {
 				0, 0, frameBuffer.getColorBufferTexture().getWidth(),
 				frameBuffer.getColorBufferTexture().getHeight(), false, true);
 		spriteBatch.end();
+		if (Gdx.input.justTouched()) {
+			if (!rotate)
+				rotate = true;
+			else
+				rotate = false;
+		}
 	}
 
 	public void create() {
@@ -78,7 +86,7 @@ public class Screen implements InputProcessor {
 				0, c2, 1, 0, 0, 0.5f, 0, c3, 0.5f, 1 });
 
 		texture = new Texture(Gdx.files.internal("data/bg.png"));
-		texture.setWrap(TextureWrap.Repeat, TextureWrap.Repeat);
+		texture.setWrap(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge);
 
 		spriteBatch = new SpriteBatch();
 		frameBuffer = new FrameBuffer(Format.RGB565, 128, 128, false);
@@ -97,9 +105,8 @@ public class Screen implements InputProcessor {
 		vertexShader = getProgram("data/shaders/simple.vert");
 		fragmentShader = getProgram("data/shaders/simple.frag");
 
-
 		meshShader = new ShaderProgram(vertexShader, fragmentShader);
-		if (meshShader.isCompiled() == false){
+		if (meshShader.isCompiled() == false) {
 			System.out.println(meshShader.getManagedStatus());
 			System.out.println(meshShader.getLog());
 			throw new IllegalStateException(meshShader.getLog());
