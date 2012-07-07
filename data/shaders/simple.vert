@@ -12,5 +12,7 @@ void main()
    v_texCoords = a_texCoords;
    //gl_Position =   a_Position;
    v_texCoords.x+=sin(u_time/60f)*0.5f;
+   v_texCoords.y+=sin(u_time/600f)*0.5f;
+   
    gl_Position=u_world*a_Position;
 }           
