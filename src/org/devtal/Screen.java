@@ -1,8 +1,6 @@
 package org.devtal;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL10;
 import com.badlogic.gdx.graphics.GL20;
@@ -17,7 +15,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 
-public class Screen implements InputProcessor {
+public class Screen extends BasicScreen {
 
 	FrameBuffer frameBuffer;
 	Mesh mesh;
@@ -32,7 +30,8 @@ public class Screen implements InputProcessor {
 		currentTime += accum;
 		if (rotate)
 			worldMatrix.setToRotation(0, 0, 1, currentTime * 9);
-		else worldMatrix.setToRotation(0,0,1,0);
+		else
+			worldMatrix.setToRotation(0, 0, 1, 0);
 		frameBuffer.begin();
 		Gdx.graphics.getGL20().glViewport(0, 0, frameBuffer.getWidth(),
 				frameBuffer.getHeight());
@@ -55,7 +54,8 @@ public class Screen implements InputProcessor {
 
 		Gdx.graphics.getGL20().glViewport(0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
-		Gdx.graphics.getGL20().glClearColor((float) Math.sin(currentTime/60), 0f, (float) Math.cos(currentTime/60), 1);
+		Gdx.graphics.getGL20().glClearColor((float) Math.sin(currentTime / 60),
+				0f, (float) Math.cos(currentTime / 60), 1);
 		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		spriteBatch.begin();
@@ -78,9 +78,7 @@ public class Screen implements InputProcessor {
 				"a_texCoords"));
 		float c1 = Color.toFloatBits(255, 0, 0, 255);
 		float c2 = Color.toFloatBits(255, 0, 0, 255);
-		;
 		float c3 = Color.toFloatBits(0, 0, 255, 255);
-		;
 
 		mesh.setVertices(new float[] { -0.5f, -0.5f, 0, c1, 0, 0, 0.5f, -0.5f,
 				0, c2, 1, 0, 0, 0.5f, 0, c3, 0.5f, 1 });
@@ -90,89 +88,8 @@ public class Screen implements InputProcessor {
 
 		spriteBatch = new SpriteBatch();
 		frameBuffer = new FrameBuffer(Format.RGB565, 128, 128, false);
-		createShader(Gdx.graphics);
+		meshShader = createShader(Gdx.graphics, "simple");
 		worldMatrix = new Matrix4();
-
-	}
-
-	private String getProgram(String filePath) {
-		return Gdx.files.internal(filePath).readString();
-	}
-
-	private void createShader(Graphics graphics) {
-
-		String vertexShader, fragmentShader;
-		vertexShader = getProgram("data/shaders/simple.vert");
-		fragmentShader = getProgram("data/shaders/simple.frag");
-
-		meshShader = new ShaderProgram(vertexShader, fragmentShader);
-		if (meshShader.isCompiled() == false) {
-			System.out.println(meshShader.getManagedStatus());
-			System.out.println(meshShader.getLog());
-			throw new IllegalStateException(meshShader.getLog());
-		}
-	}
-
-	@Override
-	public boolean keyDown(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyUp(int keycode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean keyTyped(char character) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDown(int x, int y, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchUp(int x, int y, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int x, int y, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean touchMoved(int x, int y) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public void wait(TestFXApp towerGame) {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void dispose() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void removed() {
-		// TODO Auto-generated method stub
 
 	}
 

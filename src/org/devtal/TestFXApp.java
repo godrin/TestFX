@@ -12,7 +12,7 @@ public class TestFXApp implements ApplicationListener {
 	private float accum = 0;
 	boolean stop = false;
 
-	private Screen screen = new Screen();
+	private BasicScreen screen = new Screen();
 
 	public void create() {
 		running = true;
