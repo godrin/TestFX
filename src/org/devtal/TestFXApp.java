@@ -12,7 +12,7 @@ public class TestFXApp implements ApplicationListener {
 	private float accum = 0;
 	boolean stop = false;
 
-	private BasicScreen screen = new Screen();
+	private BasicScreen screen = new DancingLines();
 
 	public void create() {
 		running = true;
@@ -43,11 +43,11 @@ public class TestFXApp implements ApplicationListener {
 	public void render() {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		accum += Gdx.graphics.getDeltaTime();
-		if(false)
-		while (accum > 1.0f / 60.0f) {
-			accum -= 1.0f / 60.0f;
-		}
-		screen.render(accum);
+		if (false)
+			while (accum > 1.0f / 60.0f) {
+				accum -= 1.0f / 60.0f;
+			}
+		screen.render(Gdx.graphics.getDeltaTime());
 	}
 
 	@Override
