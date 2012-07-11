@@ -13,7 +13,7 @@ public class DancingLines extends BasicScreen {
 	Mesh mesh;
 	private ShaderProgram meshShader;
 	private float currentTime = 0;
-
+	private Screen screenOne = new Screen();
 	@Override
 	public void create() {
 		mesh = new Mesh(true, 4, 0, new VertexAttribute(Usage.Position, 3,
@@ -43,7 +43,7 @@ public class DancingLines extends BasicScreen {
 		meshShader.setUniformf("u_time", currentTime);
 		mesh.render(meshShader, GL20.GL_TRIANGLES);
 		meshShader.end();
-
+		
 	}
 
 }

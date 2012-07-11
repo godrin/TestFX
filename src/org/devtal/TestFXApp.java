@@ -11,8 +11,10 @@ public class TestFXApp implements ApplicationListener {
 	private boolean started = false;
 	private float accum = 0;
 	boolean stop = false;
+	private boolean first = true;
 
 	private BasicScreen screen = new DancingLines();
+	private Screen screenOne = new Screen();
 
 	public void create() {
 		running = true;
@@ -47,7 +49,27 @@ public class TestFXApp implements ApplicationListener {
 			while (accum > 1.0f / 60.0f) {
 				accum -= 1.0f / 60.0f;
 			}
-		screen.render(Gdx.graphics.getDeltaTime());
+		if (first)
+			screen.render(0.2f);
+		if (!first)
+			screen.render(accum);
+		if (accum >= 10) {
+			if (first) {
+				screen.dispose();
+				setScreen(screenOne);
+				screen.create();
+				first = false;
+			}
+			if (accum >= 20) {
+				if (!first) {
+					screen.dispose();
+					screen = new DancingLines();
+					screen.create();
+					first = true;
+				}
+				accum = 0;
+			}
+		}
 	}
 
 	@Override
