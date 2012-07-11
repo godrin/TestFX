@@ -7,21 +7,23 @@ import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Matrix4;
 
 public class DancingLines extends BasicScreen {
 
 	Mesh mesh;
 	private ShaderProgram meshShader;
 	private float currentTime = 0;
-	private Screen screenOne = new Screen();
+	private boolean rotate = false;
+
 	@Override
 	public void create() {
 		mesh = new Mesh(true, 4, 0, new VertexAttribute(Usage.Position, 3,
 				"a_Position"), new VertexAttribute(Usage.ColorPacked, 4,
 				"a_Color"));
-		float c1 = Color.toFloatBits(255, 0, 0, 255);
-		float c2 = Color.toFloatBits(255, 0, 0, 255);
-		float c3 = Color.toFloatBits(0, 0, 255, 255);
+		float c1 = Color.toFloatBits(255, 50, 0, 255);
+		float c2 = Color.toFloatBits(255, 50, 0, 255);
+		float c3 = Color.toFloatBits(255, 250, 0, 255);
 
 		mesh.setVertices(new float[] { -0.5f, -0.5f, 0, c1, 0.5f, -0.5f, 0, c2,
 				0, 0.5f, 0, c3 });
@@ -43,7 +45,6 @@ public class DancingLines extends BasicScreen {
 		meshShader.setUniformf("u_time", currentTime);
 		mesh.render(meshShader, GL20.GL_TRIANGLES);
 		meshShader.end();
-		
 	}
 
 }
