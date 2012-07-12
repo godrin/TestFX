@@ -11,6 +11,8 @@ public abstract class BasicScreen implements InputProcessor {
 		super();
 	}
 
+	public abstract void create();
+
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub
@@ -93,8 +95,6 @@ public abstract class BasicScreen implements InputProcessor {
 		}
 		return meshShader;
 	}
-
-	public abstract void create();
 
 	public abstract void render(float accum);
 

@@ -23,11 +23,13 @@ public class Screen extends BasicScreen {
 	Texture texture;
 	SpriteBatch spriteBatch;
 	float currentTime = 0;
+	float speed=0;
 	Matrix4 worldMatrix;
 	boolean rotate = false;
 
 	public void render(float accum) {
-		currentTime += accum;
+		speed+=accum;
+		currentTime += speed;
 		if (rotate)
 			worldMatrix.setToRotation(0, 0, 1, currentTime * 9);
 		else
