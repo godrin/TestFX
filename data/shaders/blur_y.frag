@@ -12,13 +12,13 @@ void main()
   int blurWidth=15;
   float textureWidth=1024;
   
-  v_texCoords.x-=blurWidth/textureWidth;
+  v_texCoords.y-=blurWidth/textureWidth;
   
   for(i=-blurWidth;i<=blurWidth;i++) {
-    v_texCoords.x+=1/textureWidth;
+    v_texCoords.y+=1/textureWidth;
     currentColor=texture2D(u_texture, v_texCoords)*(blurWidth-abs(i*1.0f));
     colorSum+=currentColor;
   }
   colorSum/=blurWidth*5;
-  gl_FragColor=colorSum;
+  gl_FragColor=colorSum;  
 }
