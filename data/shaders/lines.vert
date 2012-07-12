@@ -10,6 +10,6 @@ void main()
    v_Color = a_Color;
    
    gl_Position=a_Position;
-   gl_Position.x+=sin(u_time*3+a_delta)*0.1;
-   gl_Position.y+=cos(2+u_time*2+a_delta)*0.1;
+   gl_Position.x+=sin(u_time*3.0f+a_delta)*0.1f;
+   gl_Position.y+=cos(2.0f+u_time*2.0f+a_delta)*0.1f;
 }           
