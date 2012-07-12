@@ -10,8 +10,6 @@ import com.badlogic.gdx.graphics.GL10;
 public class TestFXApp implements ApplicationListener {
 	private static final long serialVersionUID = 1L;
 
-	private static final float SCREEN_SECONDS = 10;
-
 	private boolean running = false;
 	private boolean started = false;
 	private float accum = 0;
@@ -19,8 +17,7 @@ public class TestFXApp implements ApplicationListener {
 	private boolean first = true;
 
 	private List<BasicScreen> screens = Arrays.asList(new BasicScreen[] {
-			//new DancingLines(),
-			new BlurScreen() });
+			new BlurScreen(), new DancingLines(), new Screen() });
 	private Integer screenId = 0;
 
 	public void create() {
@@ -41,7 +38,7 @@ public class TestFXApp implements ApplicationListener {
 	public void render() {
 		Gdx.gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 		accum += Gdx.graphics.getDeltaTime();
-		screenId = (int) (accum / SCREEN_SECONDS) % screens.size();
+		screenId = (int) (accum / 10) % screens.size();
 		screens.get(screenId).render(Gdx.graphics.getDeltaTime());
 
 	}
