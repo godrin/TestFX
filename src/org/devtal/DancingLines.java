@@ -7,7 +7,6 @@ import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Matrix4;
 
 public class DancingLines extends BasicScreen {
 
@@ -20,13 +19,13 @@ public class DancingLines extends BasicScreen {
 	public void create() {
 		mesh = new Mesh(true, 4, 0, new VertexAttribute(Usage.Position, 3,
 				"a_Position"), new VertexAttribute(Usage.ColorPacked, 4,
-				"a_Color"));
+				"a_Color"), new VertexAttribute(Usage.Generic, 1, "a_delta"));
 		float c1 = Color.toFloatBits(255, 50, 0, 255);
 		float c2 = Color.toFloatBits(255, 50, 0, 255);
 		float c3 = Color.toFloatBits(255, 250, 0, 255);
 
-		mesh.setVertices(new float[] { -0.5f, -0.5f, 0, c1, 0.5f, -0.5f, 0, c2,
-				0, 0.5f, 0, c3 });
+		mesh.setVertices(new float[] { -0.5f, -0.5f, 0, c1, 0, 0.5f, -0.5f, 0,
+				c2, 3.14f / 2, 0, 0.5f, 0, c3, 3.14f });
 		meshShader = createShader(Gdx.graphics, "lines");
 
 	}

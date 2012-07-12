@@ -23,12 +23,12 @@ public class Screen extends BasicScreen {
 	Texture texture;
 	SpriteBatch spriteBatch;
 	float currentTime = 0;
-	float speed=0;
+	float speed = 0;
 	Matrix4 worldMatrix;
 	boolean rotate = false;
 
 	public void render(float accum) {
-		speed+=accum;
+		speed += accum;
 		currentTime += speed;
 		if (rotate)
 			worldMatrix.setToRotation(0, 0, 1, currentTime * 9);
@@ -82,8 +82,9 @@ public class Screen extends BasicScreen {
 		float c2 = Color.toFloatBits(255, 0, 0, 255);
 		float c3 = Color.toFloatBits(0, 0, 255, 255);
 
-		mesh.setVertices(new float[] { -0.5f, -0.5f, 0, c1, 0, 0, 0.5f, -0.5f,
-				0, c2, 1, 0, 0, 0.5f, 0, c3, 0.5f, 1 });
+		mesh.setVertices(new float[] { -0.5f, -0.5f, 0, c1, 0, 0, //
+				0.5f, -0.5f, 0, c2, 1, 0, //
+				0, 0.5f, 0, c3, 0.5f, 1 });
 
 		texture = new Texture(Gdx.files.internal("data/bg.png"));
 		texture.setWrap(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge);
