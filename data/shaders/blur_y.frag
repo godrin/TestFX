@@ -3,25 +3,35 @@ precision mediump float;
 #endif
 varying vec2 v_texCoords;
 uniform sampler2D u_texture;
+uniform int blurWidth;
+uniform float textureWidth;
+uniform float sigma;
+const float pi = 3.14159265f;
 
 void main()                               
-{                                            
-  vec4 colorSum;
-  vec4 currentColor;
+{
+  vec3 incrementalGaussian;
+  incrementalGaussian.x = 1.0f / (sqrt(2.0f * pi) * sigma);
+  incrementalGaussian.y = exp(-0.5f / (sigma * sigma));
+  incrementalGaussian.z = incrementalGaussian.y * incrementalGaussian.y;
+  
+  float coefficientSum = 0.0f;                                          
+  vec4 colorSum=new vec4(0,0,0,0);
   int i;
-  int blurWidth=15;
-  float textureWidth=1024.0f;
-  float weight;
-  vec2 tc=v_texCoords;
+  vec2 tc0=v_texCoords;
+  vec2 tc1=v_texCoords;
   
-  tc.y-=float(blurWidth)/textureWidth;
+  colorSum+=texture2D(u_texture, tc0) * incrementalGaussian.x;
+  coefficientSum += incrementalGaussian.x;
+  incrementalGaussian.xy *= incrementalGaussian.yz;
   
-  for(i=-blurWidth;i<=blurWidth;i++) {
-    tc.y+=1.0f/textureWidth;
-    weight=float(blurWidth)-abs(float(i));
-    currentColor=texture2D(u_texture, tc)*weight; //((float)blurWidth-abs((float)i*1.0f)));
-    colorSum+=currentColor;
+  for(i=1;i<=blurWidth;i++) {
+    tc0.y+=1.0f/textureWidth;
+    tc1.y-=1.0f/textureWidth;
+    colorSum+=texture2D(u_texture, tc0) * incrementalGaussian.x;
+    colorSum+=texture2D(u_texture, tc1) * incrementalGaussian.x;
+    coefficientSum+=incrementalGaussian.x;
+    incrementalGaussian.xy *= incrementalGaussian.yz;
   }
-  colorSum/=float(blurWidth*5);
-  gl_FragColor=colorSum;
+  gl_FragColor=colorSum/coefficientSum;
 }
