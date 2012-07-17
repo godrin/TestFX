@@ -13,11 +13,21 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 public class BlurScreen extends BasicScreen {
 
-	Mesh mesh;
-	Mesh lineMesh;
+	private Mesh mesh;
 	private ShaderProgram meshShader;
 	private float currentTime = 0;
-	BlurRenderer blurRenderer;
+	private BlurRenderer blurRenderer;
+	private RenderCallback sceneRenderer=new RenderCallback() {
+		public void render() {
+			meshShader.begin();
+			// meshShader.setUniformi("u_texture", 0);
+			// meshShader.setUniformMatrix("u_world", worldMatrix);
+			meshShader.setUniformf("u_time", currentTime);
+
+			mesh.render(meshShader, GL20.GL_TRIANGLES);
+			meshShader.end();
+		}
+	};
 
 	@Override
 	public void create() {
@@ -26,19 +36,11 @@ public class BlurScreen extends BasicScreen {
 		mesh = new Mesh(true, 3, 0, new VertexAttribute(Usage.Position, 3,
 				"a_Position"), new VertexAttribute(Usage.ColorPacked, 4,
 				"a_Color"), new VertexAttribute(Usage.Generic, 1, "a_delta"));
-		lineMesh = new Mesh(true, 6, 0, new VertexAttribute(Usage.Position, 3,
-				"a_Position"), new VertexAttribute(Usage.ColorPacked, 4,
-				"a_Color"), new VertexAttribute(Usage.Generic, 1, "a_delta"));
+
 		float c1 = Color.toFloatBits(255, 50, 0, 255);
 		float c2 = Color.toFloatBits(255, 50, 0, 255);
 		float c3 = Color.toFloatBits(255, 250, 0, 255);
 
-		lineMesh.setVertices(new float[] { -0.5f, -0.5f, 0, c1, 0,//
-				0.5f, -0.5f, 0, c2, 3.14f / 2, //
-				0.5f, -0.5f, 0, c2, 3.14f / 2,//
-				0, 0.5f, 0, c3, 3.14f, //
-				0, 0.5f, 0, c3, 3.14f, //
-				-0.5f, -0.5f, 0, c1, 0 });
 
 		mesh.setVertices(new float[] { -0.5f, -0.5f, 0, c1, 0,//
 				0.5f, -0.5f, 0, c2, 3.14f / 2, //
@@ -51,17 +53,7 @@ public class BlurScreen extends BasicScreen {
 	@Override
 	public void render(float accum) {
 		currentTime += accum;
-		blurRenderer.prepare(new RenderCallback() {
-			public void render() {
-				meshShader.begin();
-				// meshShader.setUniformi("u_texture", 0);
-				// meshShader.setUniformMatrix("u_world", worldMatrix);
-				meshShader.setUniformf("u_time", currentTime);
-
-				lineMesh.render(meshShader, GL20.GL_LINES);
-				meshShader.end();
-			}
-		});
+		blurRenderer.prepare(sceneRenderer);
 
 		// to screen
 
@@ -74,12 +66,7 @@ public class BlurScreen extends BasicScreen {
 
 			Gdx.graphics.getGL20().glDisable(GL20.GL_TEXTURE_2D);
 
-			meshShader.begin();
-
-			meshShader.setUniformf("u_time", currentTime);
-
-			mesh.render(meshShader, GL20.GL_TRIANGLES);
-			meshShader.end();
+			sceneRenderer.render();
 		}
 
 	}
