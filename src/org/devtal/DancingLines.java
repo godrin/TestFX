@@ -26,7 +26,7 @@ public class DancingLines extends BasicScreen {
 
 		mesh.setVertices(new float[] { -0.5f, -0.5f, 0, c1, 0, 0.5f, -0.5f, 0,
 				c2, 3.14f / 2, 0, 0.5f, 0, c3, 3.14f });
-		meshShader = createShader(Gdx.graphics, "lines");
+		meshShader = SimpleShader.createShader(Gdx.graphics, "lines");
 
 	}
 

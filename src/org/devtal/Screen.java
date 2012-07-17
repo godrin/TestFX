@@ -91,7 +91,7 @@ public class Screen extends BasicScreen {
 
 		spriteBatch = new SpriteBatch();
 		frameBuffer = new FrameBuffer(Format.RGB565, 128, 128, false);
-		meshShader = createShader(Gdx.graphics, "simple");
+		meshShader = SimpleShader.createShader(Gdx.graphics, "simple");
 		worldMatrix = new Matrix4();
 
 	}
