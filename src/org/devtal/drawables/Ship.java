@@ -1,5 +1,8 @@
 package org.devtal.drawables;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.devtal.SimpleShader;
 import org.devtal.effect.RenderCallback;
 
@@ -15,6 +18,18 @@ public class Ship implements RenderCallback {
 	private ShaderProgram meshShader;
 	private Mesh mesh;
 
+	class MeshPoint {
+		float x, y, z, c, d;
+
+		MeshPoint(float x, float y, float c) {
+			this.x = x;
+			this.y = y;
+			this.z = 0;
+			this.c = c;
+			this.d = 0;
+		}
+	}
+
 	@Override
 	public void render(float currentTime) {
 		meshShader.begin();
@@ -26,17 +41,38 @@ public class Ship implements RenderCallback {
 
 	public void create() {
 
-		mesh = new Mesh(true, 3, 0, new VertexAttribute(Usage.Position, 3,
-				"a_Position"), new VertexAttribute(Usage.ColorPacked, 4,
-				"a_Color"), new VertexAttribute(Usage.Generic, 1, "a_delta"));
-
 		float blue = Color.toFloatBits(0, 0, 200, 255);
 		float yellow = Color.toFloatBits(255, 250, 0, 255);
 
-		mesh.setVertices(new float[] { -0.5f, -0.5f, 0, blue, 0,//
-				0.5f, -0.5f, 0, yellow, 3.14f / 2, //
-				0, 0.5f, 0, yellow, 3.14f //
-		});
+		MeshPoint mmu = new MeshPoint(0, -0.1f, yellow);
+		MeshPoint lu = new MeshPoint(-0.2f, -0.2f, blue);
+		MeshPoint mu = new MeshPoint(0, -0.4f, blue);
+		MeshPoint r = new MeshPoint(0.5f, 0f, blue);
+		MeshPoint mb = new MeshPoint(0, 0.4f, blue);
+		MeshPoint lb = new MeshPoint(-0.2f, 0.2f, blue);
+		MeshPoint mmb = new MeshPoint(0, 0.1f, yellow);
+
+		List<MeshPoint> ms = Arrays.asList(new MeshPoint[] { mmu, lu, mu,//
+				mmb, lb, mb,//
+				mmb,mb,r, //
+				mmu,mu,r, //
+				mmu,mmb,r
+				 });
+
+		mesh = new Mesh(true, ms.size(), 0, new VertexAttribute(Usage.Position,
+				3, "a_Position"), new VertexAttribute(Usage.ColorPacked, 4,
+				"a_Color"), new VertexAttribute(Usage.Generic, 1, "a_delta"));
+
+		int i = 0;
+		float[] buf = new float[ms.size() * 5];
+		for (MeshPoint p : ms) {
+			buf[i++] = p.x;
+			buf[i++] = p.y;
+			buf[i++] = p.z;
+			buf[i++] = p.c;
+			buf[i++] = p.d;
+		}
+		mesh.setVertices(buf);
 
 		meshShader = SimpleShader.createShader(Gdx.graphics, "colored");
 

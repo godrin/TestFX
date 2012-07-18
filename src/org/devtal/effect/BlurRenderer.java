@@ -101,12 +101,16 @@ public class BlurRenderer {
 				"a_texCoords"));
 		int tw = 1;
 		int th = 1;
-		copyMesh.setVertices(new float[] { -1, -1, 0, 0, 0,//
-				1, -1, 0, tw, 0, //
-				1, 1, 0, tw, th, //
-				1, 1, 0, tw, th,//
-				-1, 1, 0, 0, th, //
-				-1, -1, 0, 0, 0 });
+		float zx=40.0f/1024;
+		float zy=20.0f/1024;
+		float dx=4.0f/1024;
+		float dy=-3.0f/1024;
+		copyMesh.setVertices(new float[] { -1-zx+dx, -1-zy+dy, 0, 0, 0,//
+				1+zx+dx, -1-zy+dy, 0, tw, 0, //
+				1+zx+dx, 1+zy+dy, 0, tw, th, //
+				1+zx+dx, 1+zy+dy, 0, tw, th,//
+				-1-zx+dx, 1+zy+dy, 0, 0, th, //
+				-1-zx+dx, -1-zy+dy, 0, 0, 0 });
 
 
 	}
@@ -121,6 +125,7 @@ public class BlurRenderer {
 		}
 		blurYBuffer.getColorBufferTexture().bind();
 		copyShader.begin();
+		copyShader.setUniform4fv("u_color", new float[]{0.7f,0.7f,0.7f,0.2f},0,4);
 		copyShader.setUniformi("u_texture", 0);
 		copyMesh.render(copyShader, GL20.GL_TRIANGLES);
 		copyShader.end();
