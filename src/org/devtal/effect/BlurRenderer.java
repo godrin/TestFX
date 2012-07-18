@@ -25,7 +25,7 @@ public class BlurRenderer {
 	private ShaderProgram blurXShader;
 	private ShaderProgram blurYShader;
 	
-	public void prepare(RenderCallback callback) {
+	public void prepare(RenderCallback callback,float currentTime) {
 		create();
 		
 		initialFrameBuffer.begin();
@@ -36,7 +36,7 @@ public class BlurRenderer {
 		Gdx.graphics.getGL20().glDisable(GL20.GL_TEXTURE_2D);
 		Gdx.graphics.getGL20().glLineWidth(4);
 
-		callback.render();
+		callback.render(currentTime);
 		initialFrameBuffer.end();
 
 		// blur x
@@ -111,7 +111,7 @@ public class BlurRenderer {
 
 	}
 
-	public void renderBlur() {
+	public void renderBlurToScreen() {
 		Gdx.graphics.getGL20().glEnable(GL20.GL_TEXTURE_2D);
 
 		if (true) {

@@ -1,5 +1,6 @@
 package org.devtal;
 
+import org.devtal.drawables.Triangle;
 import org.devtal.effect.BlurRenderer;
 import org.devtal.effect.RenderCallback;
 
@@ -13,62 +14,29 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 public class BlurScreen extends BasicScreen {
 
-	private Mesh mesh;
-	private ShaderProgram meshShader;
 	private float currentTime = 0;
 	private BlurRenderer blurRenderer;
-	private RenderCallback sceneRenderer=new RenderCallback() {
-		public void render() {
-			meshShader.begin();
-			// meshShader.setUniformi("u_texture", 0);
-			// meshShader.setUniformMatrix("u_world", worldMatrix);
-			meshShader.setUniformf("u_time", currentTime);
-
-			mesh.render(meshShader, GL20.GL_TRIANGLES);
-			meshShader.end();
-		}
-	};
+	private Triangle triangle;
 
 	@Override
 	public void create() {
 		blurRenderer = new BlurRenderer();
-
-		mesh = new Mesh(true, 3, 0, new VertexAttribute(Usage.Position, 3,
-				"a_Position"), new VertexAttribute(Usage.ColorPacked, 4,
-				"a_Color"), new VertexAttribute(Usage.Generic, 1, "a_delta"));
-
-		float c1 = Color.toFloatBits(255, 50, 0, 255);
-		float c2 = Color.toFloatBits(255, 50, 0, 255);
-		float c3 = Color.toFloatBits(255, 250, 0, 255);
-
-
-		mesh.setVertices(new float[] { -0.5f, -0.5f, 0, c1, 0,//
-				0.5f, -0.5f, 0, c2, 3.14f / 2, //
-				0, 0.5f, 0, c3, 3.14f //
-		});
-
-		meshShader = SimpleShader.createShader(Gdx.graphics, "lines");
+		triangle = new Triangle();
+		triangle.create();
 	}
 
 	@Override
 	public void render(float accum) {
 		currentTime += accum;
-		blurRenderer.prepare(sceneRenderer);
-
-		// to screen
+		blurRenderer.prepare(triangle, currentTime);
 
 		clearScreen();
 
-		blurRenderer.renderBlur();
+		blurRenderer.renderBlurToScreen();
 		Gdx.graphics.getGL20().glBlendFunc(GL20.GL_ONE, GL20.GL_ZERO);
-		if (true) {
-			// draw triangle
+		Gdx.graphics.getGL20().glDisable(GL20.GL_TEXTURE_2D);
 
-			Gdx.graphics.getGL20().glDisable(GL20.GL_TEXTURE_2D);
-
-			sceneRenderer.render();
-		}
-
+		triangle.render(currentTime);
 	}
 
 	private void clearScreen() {

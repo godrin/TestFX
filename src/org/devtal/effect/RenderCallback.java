@@ -1,5 +1,5 @@
 package org.devtal.effect;
 
 public interface RenderCallback {
-	void render();
+	void render(float currentTime);
 }
