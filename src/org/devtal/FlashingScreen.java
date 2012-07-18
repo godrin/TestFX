@@ -15,7 +15,7 @@ import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Matrix4;
 
-public class Screen extends BasicScreen {
+public class FlashingScreen extends BasicScreen {
 
 	FrameBuffer frameBuffer;
 	Mesh mesh;
