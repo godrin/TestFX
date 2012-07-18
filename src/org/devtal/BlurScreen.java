@@ -1,27 +1,22 @@
 package org.devtal;
 
-import org.devtal.drawables.Triangle;
+import org.devtal.drawables.Ship;
 import org.devtal.effect.BlurRenderer;
 import org.devtal.effect.RenderCallback;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Mesh;
-import com.badlogic.gdx.graphics.VertexAttribute;
-import com.badlogic.gdx.graphics.VertexAttributes.Usage;
-import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 public class BlurScreen extends BasicScreen {
 
 	private float currentTime = 0;
 	private BlurRenderer blurRenderer;
-	private Triangle triangle;
+	private RenderCallback triangle;
 
 	@Override
 	public void create() {
 		blurRenderer = new BlurRenderer();
-		triangle = new Triangle();
+		triangle = new Ship();
 		triangle.create();
 	}
 
