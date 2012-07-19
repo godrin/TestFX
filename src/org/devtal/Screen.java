@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.Texture.TextureFilter;
 import com.badlogic.gdx.graphics.Texture.TextureWrap;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
@@ -56,11 +57,11 @@ public class Screen extends BasicScreen {
 
 		Gdx.graphics.getGL20().glViewport(0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
-		Gdx.graphics.getGL20().glClearColor(1f, 0f, 0, 1);
+		Gdx.graphics.getGL20().glClearColor(0f, 0f, 0, 1);
 		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		spriteBatch.begin();
-		spriteBatch.draw(frameBuffer.getColorBufferTexture(), 0, 0, 256, 256,
+		spriteBatch.draw(frameBuffer.getColorBufferTexture(), 300, 200, 256, 256,
 				0, 0, frameBuffer.getColorBufferTexture().getWidth(),
 				frameBuffer.getColorBufferTexture().getHeight(), false, true);
 		spriteBatch.end();
@@ -89,7 +90,7 @@ public class Screen extends BasicScreen {
 		texture.setWrap(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge);
 
 		spriteBatch = new SpriteBatch();
-		frameBuffer = new FrameBuffer(Format.RGB565, 128, 128, false);
+		frameBuffer = new FrameBuffer(Format.RGB565, 6, 6, false);
 		meshShader = SimpleShader.createShader(Gdx.graphics, "simple");
 		worldMatrix = new Matrix4();
 
