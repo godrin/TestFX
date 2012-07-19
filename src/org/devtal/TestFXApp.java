@@ -17,7 +17,8 @@ public class TestFXApp implements ApplicationListener {
 	private boolean first = true;
 
 	private List<BasicScreen> screens = Arrays.asList(new BasicScreen[] {
-			new Screen(), new DancingLines(),new BlurScreen() });
+			new Screen(),new BlurScreen(), new DancingLines(), new FlashingScreen() });
+
 	private Integer screenId = 0;
 
 	public void create() {
