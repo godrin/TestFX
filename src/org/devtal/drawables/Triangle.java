@@ -1,7 +1,7 @@
 package org.devtal.drawables;
 
 import org.devtal.SimpleShader;
-import org.devtal.effect.RenderCallback;
+import org.devtal.effect.Drawable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -10,20 +10,22 @@ import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Matrix4;
 
-public class Triangle implements RenderCallback{
+public class Triangle implements Drawable {
 	private ShaderProgram meshShader;
 	private Mesh mesh;
+
 	@Override
-	public void render(float currentTime) {
+	public void render(float currentTime, Matrix4 world) {
 		meshShader.begin();
 		meshShader.setUniformf("u_time", currentTime);
 
 		mesh.render(meshShader, GL20.GL_TRIANGLES);
 		meshShader.end();
-		
+
 	}
-	
+
 	public void create() {
 
 		mesh = new Mesh(true, 3, 0, new VertexAttribute(Usage.Position, 3,

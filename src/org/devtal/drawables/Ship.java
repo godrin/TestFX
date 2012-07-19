@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.devtal.SimpleShader;
-import org.devtal.effect.RenderCallback;
+import org.devtal.effect.Drawable;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -13,8 +13,9 @@ import com.badlogic.gdx.graphics.Mesh;
 import com.badlogic.gdx.graphics.VertexAttribute;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Matrix4;
 
-public class Ship implements RenderCallback {
+public class Ship implements Drawable {
 	private ShaderProgram meshShader;
 	private Mesh mesh;
 
@@ -31,9 +32,9 @@ public class Ship implements RenderCallback {
 	}
 
 	@Override
-	public void render(float currentTime) {
+	public void render(float currentTime, Matrix4 world) {
 		meshShader.begin();
-
+		meshShader.setUniformMatrix("world", world);
 		mesh.render(meshShader, GL20.GL_TRIANGLES);
 		meshShader.end();
 
@@ -54,10 +55,9 @@ public class Ship implements RenderCallback {
 
 		List<MeshPoint> ms = Arrays.asList(new MeshPoint[] { mmu, lu, mu,//
 				mmb, lb, mb,//
-				mmb,mb,r, //
-				mmu,mu,r, //
-				mmu,mmb,r
-				 });
+				mmb, mb, r, //
+				mmu, mu, r, //
+				mmu, mmb, r });
 
 		mesh = new Mesh(true, ms.size(), 0, new VertexAttribute(Usage.Position,
 				3, "a_Position"), new VertexAttribute(Usage.ColorPacked, 4,

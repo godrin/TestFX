@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.VertexAttributes.Usage;
 import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import com.badlogic.gdx.math.Matrix4;
 
 public class BlurRenderer {
 	private static final int BLUR_WIDTH = 20;
@@ -24,10 +25,10 @@ public class BlurRenderer {
 	private ShaderProgram copyShader;
 	private ShaderProgram blurXShader;
 	private ShaderProgram blurYShader;
-	
-	public void prepare(RenderCallback callback,float currentTime) {
+
+	public void prepare(Drawable callback, float currentTime, Matrix4 world) {
 		create();
-		
+
 		initialFrameBuffer.begin();
 		Gdx.graphics.getGL20().glViewport(0, 0, initialFrameBuffer.getWidth(),
 				initialFrameBuffer.getHeight());
@@ -36,7 +37,7 @@ public class BlurRenderer {
 		Gdx.graphics.getGL20().glDisable(GL20.GL_TEXTURE_2D);
 		Gdx.graphics.getGL20().glLineWidth(4);
 
-		callback.render(currentTime);
+		callback.render(currentTime, world);
 		initialFrameBuffer.end();
 
 		// blur x
@@ -82,9 +83,9 @@ public class BlurRenderer {
 		blurYBuffer.end();
 
 	}
-	
+
 	public void create() {
-		if(copyShader!=null)
+		if (copyShader != null)
 			return;
 		copyShader = SimpleShader.createShader(Gdx.graphics, "copy");
 		blurYShader = SimpleShader.createShader(Gdx.graphics, "blur_x");
@@ -101,17 +102,16 @@ public class BlurRenderer {
 				"a_texCoords"));
 		int tw = 1;
 		int th = 1;
-		float zx=40.0f/1024;
-		float zy=20.0f/1024;
-		float dx=4.0f/1024;
-		float dy=-3.0f/1024;
-		copyMesh.setVertices(new float[] { -1-zx+dx, -1-zy+dy, 0, 0, 0,//
-				1+zx+dx, -1-zy+dy, 0, tw, 0, //
-				1+zx+dx, 1+zy+dy, 0, tw, th, //
-				1+zx+dx, 1+zy+dy, 0, tw, th,//
-				-1-zx+dx, 1+zy+dy, 0, 0, th, //
-				-1-zx+dx, -1-zy+dy, 0, 0, 0 });
-
+		float zx = 40.0f / 1024;
+		float zy = 20.0f / 1024;
+		float dx = 4.0f / 1024;
+		float dy = -3.0f / 1024;
+		copyMesh.setVertices(new float[] { -1 - zx + dx, -1 - zy + dy, 0, 0, 0,//
+				1 + zx + dx, -1 - zy + dy, 0, tw, 0, //
+				1 + zx + dx, 1 + zy + dy, 0, tw, th, //
+				1 + zx + dx, 1 + zy + dy, 0, tw, th,//
+				-1 - zx + dx, 1 + zy + dy, 0, 0, th, //
+				-1 - zx + dx, -1 - zy + dy, 0, 0, 0 });
 
 	}
 
@@ -125,11 +125,12 @@ public class BlurRenderer {
 		}
 		blurYBuffer.getColorBufferTexture().bind();
 		copyShader.begin();
-		copyShader.setUniform4fv("u_color", new float[]{0.7f,0.7f,0.7f,0.2f},0,4);
+		copyShader.setUniform4fv("u_color", new float[] { 0.7f, 0.7f, 0.7f,
+				0.2f }, 0, 4);
 		copyShader.setUniformi("u_texture", 0);
 		copyMesh.render(copyShader, GL20.GL_TRIANGLES);
 		copyShader.end();
-		
+
 	}
 
 }
