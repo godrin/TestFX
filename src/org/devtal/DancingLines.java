@@ -17,15 +17,18 @@ public class DancingLines extends BasicScreen {
 
 	@Override
 	public void create() {
-		mesh = new Mesh(true, 4, 0, new VertexAttribute(Usage.Position, 3,
+		mesh = new Mesh(true, 7, 0, new VertexAttribute(Usage.Position, 3,
 				"a_Position"), new VertexAttribute(Usage.ColorPacked, 4,
 				"a_Color"), new VertexAttribute(Usage.Generic, 1, "a_delta"));
 		float c1 = Color.toFloatBits(255, 50, 0, 255);
 		float c2 = Color.toFloatBits(255, 50, 0, 255);
 		float c3 = Color.toFloatBits(255, 250, 0, 255);
+		float c4 = Color.toFloatBits(255, 0, 0, 255);
 
-		mesh.setVertices(new float[] { -0.5f, -0.5f, 0, c1, 0, 0.5f, -0.5f, 0,
-				c2, 3.14f / 2, 0, 0.5f, 0, c3, 3.14f });
+		mesh.setVertices(new float[] { 0, -0.5f, 0, c4,
+				3.14f, -0.5f, -0.5f, 0, c1, 0, 0.5f, -0.5f, 0, c2, 3.14f / 2,
+				-0.5f, -0.5f, 0, c1, 0, 0.5f, -0.5f, 0, c2, 3.14f / 2, 0, 0.5f,
+				0, c3, 3.14f });
 		meshShader = SimpleShader.createShader(Gdx.graphics, "lines");
 
 	}

@@ -56,8 +56,7 @@ public class FlashingScreen extends BasicScreen {
 
 		Gdx.graphics.getGL20().glViewport(0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
-		Gdx.graphics.getGL20().glClearColor((float) Math.sin(currentTime / 60),
-				0f, (float) Math.cos(currentTime / 60), 1);
+		Gdx.graphics.getGL20().glClearColor(1f, 0f, 0, 1);
 		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		spriteBatch.begin();

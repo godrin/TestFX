@@ -16,7 +16,7 @@ void main()
   incrementalGaussian.z = incrementalGaussian.y * incrementalGaussian.y;
   
   float coefficientSum = 0.0f;                                          
-  vec4 colorSum=new vec4(0,0,0,0);
+  vec4 colorSum;
   int i;
   vec2 tc0=v_texCoords;
   vec2 tc1=v_texCoords;
