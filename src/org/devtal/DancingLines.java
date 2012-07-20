@@ -24,9 +24,9 @@ public class DancingLines extends BasicScreen {
 		float c3 = Color.toFloatBits(255, 250, 0, 255);
 		float c4 = Color.toFloatBits(240, 0, 0, 255);
 
-		mesh.setVertices(new float[] { 0,0.5f,0,c3,3.14f,0.5f,-0.5f,0,c2,3.14f/2,0.25f,0,0,c4,0,//
+		mesh.setVertices(new float[] { 0,0.5f,0,c3,3.14f,0.5f,-0.5f,0,c2,3.14f/2,0.25f,0,0,c2,0,//
 				-0.25f,0,0,c1,0,-0.5f, -0.5f, 0, c1, 0,0, 0.5f,	0, c3, 3.14f ,//
-				0,	-0.5f, 0, c4,	3.14f, -0.5f, -0.5f, 0, c1, 0, 0.5f, -0.5f, 0, c2, 3.14f / 2,//
+				//0,	-0.5f, 0, c2,	3.14f, -0.5f, -0.5f, 0, c1, 0, 0.5f, -0.5f, 0, c2, 3.14f / 2,//
 				-0.5f, -0.5f, 0, c1, 0, 0.5f, -0.5f, 0, c2, 3.14f / 2, 0, 0.5f,	0, c3, 3.14f });
 		meshShader = SimpleShader.createShader(Gdx.graphics, "lines");
 

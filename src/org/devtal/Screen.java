@@ -26,15 +26,16 @@ public class Screen extends BasicScreen {
 	float currentTime = 0;
 	float speed = 0;
 	Matrix4 worldMatrix;
-	boolean rotate = false;
+	boolean rotate = true;
 
 	public void render(float accum) {
 		speed += accum;
 		currentTime += speed;
 		if (rotate)
-			worldMatrix.setToRotation(0, 0, 1, currentTime * 9);
-		else
-			worldMatrix.setToRotation(0, 0, 1, 0);
+			worldMatrix.setToRotation(180, 0, 1, 1);
+		else{
+			worldMatrix.setToRotation(180, 0, 1, 1);
+		currentTime =0;}
 		frameBuffer.begin();
 		Gdx.graphics.getGL20().glViewport(0, 0, frameBuffer.getWidth(),
 				frameBuffer.getHeight());
@@ -58,10 +59,10 @@ public class Screen extends BasicScreen {
 		Gdx.graphics.getGL20().glViewport(0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
 		Gdx.graphics.getGL20().glClearColor(0f, 0f, 0, 1);
-		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
+		//Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
 		texture.setFilter(TextureFilter.Nearest, TextureFilter.Nearest);
 		spriteBatch.begin();
-		spriteBatch.draw(frameBuffer.getColorBufferTexture(), 300, 200, 256, 256,
+		spriteBatch.draw(frameBuffer.getColorBufferTexture(), 100, 200, 640, 200,
 				0, 0, frameBuffer.getColorBufferTexture().getWidth(),
 				frameBuffer.getColorBufferTexture().getHeight(), false, true);
 		spriteBatch.end();
@@ -74,7 +75,7 @@ public class Screen extends BasicScreen {
 	}
 
 	public void create() {
-		mesh = new Mesh(true, 3, 0, new VertexAttribute(Usage.Position, 3,
+		mesh = new Mesh(true, 6, 0, new VertexAttribute(Usage.Position, 3,
 				"a_Position"), new VertexAttribute(Usage.ColorPacked, 4,
 				"a_Color"), new VertexAttribute(Usage.TextureCoordinates, 2,
 				"a_texCoords"));
@@ -82,15 +83,16 @@ public class Screen extends BasicScreen {
 		float c2 = Color.toFloatBits(255, 0, 0, 255);
 		float c3 = Color.toFloatBits(0, 0, 255, 255);
 
-		mesh.setVertices(new float[] { -0.5f, -0.5f, 0, c1, 0, 0, //
-				0.5f, -0.5f, 0, c2, 1, 0, //
-				0, 0.5f, 0, c3, 0.5f, 1 });
+		mesh.setVertices(new float[] { 
+				-1.5f, -1.5f, 0, c1, 0, 0, //
+				1.5f, -1.5f, 0, c2, 1, 0, //
+				0, 1.5f, 0, c3, 0.5f, 1});
 
-		texture = new Texture(Gdx.files.internal("data/bg.png"));
+		texture = new Texture(Gdx.files.internal("data/bg2.png"));
 		texture.setWrap(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge);
 
 		spriteBatch = new SpriteBatch();
-		frameBuffer = new FrameBuffer(Format.RGB565, 6, 6, false);
+		frameBuffer = new FrameBuffer(Format.RGB565, 36, 16, false);
 		meshShader = SimpleShader.createShader(Gdx.graphics, "simple");
 		worldMatrix = new Matrix4();
 

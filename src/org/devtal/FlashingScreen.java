@@ -25,13 +25,13 @@ public class FlashingScreen extends BasicScreen {
 	float currentTime = 0;
 	float speed = 0;
 	Matrix4 worldMatrix;
-	boolean rotate = false;
+	boolean rotate = true;
 
 	public void render(float accum) {
 		speed += accum;
-		currentTime += speed;
+		currentTime = speed;
 		if (rotate)
-			worldMatrix.setToRotation(0, 0, 1, currentTime * 9);
+			worldMatrix.setToRotation(0, 0, 1, currentTime*250);
 		else
 			worldMatrix.setToRotation(0, 0, 1, 0);
 		frameBuffer.begin();
@@ -56,11 +56,11 @@ public class FlashingScreen extends BasicScreen {
 
 		Gdx.graphics.getGL20().glViewport(0, 0, Gdx.graphics.getWidth(),
 				Gdx.graphics.getHeight());
-		Gdx.graphics.getGL20().glClearColor(1f, 0f, 0, 1);
+		Gdx.graphics.getGL20().glClearColor(0f, 0f, 0, 1);
 		Gdx.graphics.getGL20().glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		spriteBatch.begin();
-		spriteBatch.draw(frameBuffer.getColorBufferTexture(), 0, 0, 256, 256,
+		spriteBatch.draw(frameBuffer.getColorBufferTexture(), 300, 200, 256, 256,
 				0, 0, frameBuffer.getColorBufferTexture().getWidth(),
 				frameBuffer.getColorBufferTexture().getHeight(), false, true);
 		spriteBatch.end();
@@ -89,7 +89,7 @@ public class FlashingScreen extends BasicScreen {
 		texture.setWrap(TextureWrap.ClampToEdge, TextureWrap.ClampToEdge);
 
 		spriteBatch = new SpriteBatch();
-		frameBuffer = new FrameBuffer(Format.RGB565, 128, 128, false);
+		frameBuffer = new FrameBuffer(Format.RGB565, 8, 8, false);
 		meshShader = SimpleShader.createShader(Gdx.graphics, "simple");
 		worldMatrix = new Matrix4();
 
